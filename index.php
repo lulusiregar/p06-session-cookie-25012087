@@ -7,7 +7,31 @@ require_once __DIR__ . '/functions.php';
 
 $products = require __DIR__ . '/data/products.php';
 
-$theme = 'light';
+$allowedThemes = ['light', 'dark'];
+
+$theme = $_COOKIE['theme'] ?? 'light';
+
+if (!in_array($theme, $allowedThemes, true)) {
+    $theme = 'light';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['theme'])) {
+
+    $candidate = $_POST['theme'];
+
+    if (in_array($candidate, $allowedThemes, true)) {
+
+        setcookie('theme', $candidate, [
+            'expires' => time() + 60 * 60 * 24 * 30,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+
+        header('Location: index.php');
+        exit;
+    }
+}
 
 $flash = pullFlash();
 
@@ -42,6 +66,24 @@ require __DIR__ . '/components/header.php';
             <h2>Katalog Produk</h2>
             <p>Pilih produk lalu tambahkan ke session cart.</p>
         </div>
+
+        <form method="post" class="theme-form">
+            <label for="theme">Tema</label>
+
+            <select
+                id="theme"
+                name="theme"
+                onchange="this.form.submit()"
+            >
+                <option value="light" <?= $theme === 'light' ? 'selected' : '' ?>>
+                    Terang
+                </option>
+
+                <option value="dark" <?= $theme === 'dark' ? 'selected' : '' ?>>
+                    Gelap
+                </option>
+            </select>
+        </form>
     </section>
 
     <section class="product-grid">
