@@ -7,46 +7,82 @@ require_once __DIR__ . '/functions.php';
 
 $products = require __DIR__ . '/data/products.php';
 
+// Jika actions.php dibuka langsung melalui GET,
+// kembalikan pengguna ke halaman utama.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;
 }
 
-$action = $_POST['action'] ?? '';
-$id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+$action = $_POST['action'] ?? null;
 
-if ($action === 'add') {
+$id = filter_input(
+    INPUT_POST,
+    'id',
+    FILTER_VALIDATE_INT
+);
 
-    if ($id === false || $id === null || !isset($products[$id])) {
+$allowedActions = ['add', 'remove', 'clear'];
+
+// Validasi action
+if (
+    !is_string($action) ||
+    !in_array($action, $allowedActions, true)
+) {
+    setFlash('Aksi tidak valid.');
+    header('Location: index.php');
+    exit;
+}
+
+// Action selain clear wajib memiliki ID produk yang valid
+if ($action !== 'clear') {
+
+    if (
+        $id === false ||
+        $id === null ||
+        !isset($products[$id])
+    ) {
         setFlash('Produk tidak ditemukan.');
         header('Location: index.php');
         exit;
     }
+}
 
-    $_SESSION['cart'][$id] = ($_SESSION['cart'][$id] ?? 0) + 1;
+// Tambah produk
+if ($action === 'add') {
 
-    setFlash('Produk berhasil ditambahkan ke keranjang.');
+    $_SESSION['cart'][$id] =
+        ($_SESSION['cart'][$id] ?? 0) + 1;
+
+    setFlash(
+        $products[$id]['nama'] .
+        ' berhasil ditambahkan ke keranjang.'
+    );
 
     header('Location: index.php');
     exit;
 }
 
+// Hapus satu produk
 if ($action === 'remove') {
 
-    if ($id === false || $id === null || !isset($_SESSION['cart'][$id])) {
-        setFlash('Item tidak ditemukan di keranjang.');
+    if (!isset($_SESSION['cart'][$id])) {
+
+        setFlash('Produk tidak ada di keranjang.');
+
         header('Location: cart.php');
         exit;
     }
 
     unset($_SESSION['cart'][$id]);
 
-    setFlash('Item berhasil dihapus dari keranjang.');
+    setFlash('Produk berhasil dihapus dari keranjang.');
 
     header('Location: cart.php');
     exit;
 }
 
+// Kosongkan keranjang
 if ($action === 'clear') {
 
     $_SESSION['cart'] = [];
@@ -56,8 +92,3 @@ if ($action === 'clear') {
     header('Location: cart.php');
     exit;
 }
-
-setFlash('Aksi tidak valid.');
-
-header('Location: index.php');
-exit;
