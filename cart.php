@@ -75,6 +75,15 @@ require __DIR__ . '/components/header.php';
                         <?= e(formatRupiah($subtotal)) ?>
                     </strong>
 
+                    <form method="post" action="actions.php">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="id" value="<?= (int) $id ?>">
+
+                        <button type="submit">
+                            Hapus
+                        </button>
+                    </form>
+
                 </article>
 
             <?php endforeach; ?>
@@ -83,6 +92,14 @@ require __DIR__ . '/components/header.php';
                 <span>Total</span>
                 <strong><?= e(formatRupiah($total)) ?></strong>
             </div>
+
+            <form method="post" action="actions.php">
+                <input type="hidden" name="action" value="clear">
+
+                <button type="submit">
+                    Kosongkan Keranjang
+                </button>
+            </form>
 
         </section>
 
