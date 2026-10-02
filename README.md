@@ -1,75 +1,62 @@
-# Mini Café Cart - Pertemuan 6
-
-Aplikasi PHP sederhana untuk praktikum Pemrograman Web I Pertemuan 6.
+# Praktikum Pemrograman Web I - Pertemuan 6
 
 ## Identitas
-- Nama: LulU' Khairunnisa Siregar
+
+- Nama: Lulu' Khairunnisa Siregar
 - NIM: 25012087
 - Kelas: 25M31
 
-## Tujuan
-Menerapkan PHP Session untuk state keranjang, flash message untuk notifikasi satu kali, Cookie untuk preferensi tema non-sensitif, validasi input, escaping output, serta workflow Git/GitHub.
+## Judul
+
+Session, Cookie, Flash Message, dan Keranjang Sederhana
+
+## Deskripsi
+
+Project ini merupakan implementasi praktikum Pemrograman Web I Pertemuan 6 menggunakan PHP Native.
+
+Project menerapkan:
+
+- PHP Session
+- Flash Message
+- Cookie
+- Keranjang sederhana
+- Validasi input
+- Escape output
+- Git dan GitHub
+
+Data produk disimpan secara statis dalam file PHP dan keranjang disimpan menggunakan Session tanpa database.
 
 ## Fitur
-- Katalog produk
-- Tambah produk ke session cart
-- Hapus item
-- Kosongkan keranjang
-- Perhitungan kuantitas, subtotal, dan total
-- Flash message satu kali
-- Tema terang/gelap menggunakan cookie 30 hari
-- Validasi action dan ID produk
-- Escaping output dengan htmlspecialchars()
+
+1. Menampilkan katalog produk.
+2. Menambahkan produk ke keranjang.
+3. Menampilkan jumlah produk dalam keranjang.
+4. Menampilkan subtotal dan total harga.
+5. Menghapus produk dari keranjang.
+6. Mengosongkan seluruh keranjang.
+7. Menampilkan flash message setelah aksi.
+8. Mengubah tema terang dan gelap.
+9. Menyimpan preferensi tema menggunakan Cookie.
+10. Memvalidasi input action dan ID produk.
+11. Mengarahkan akses GET ke actions.php kembali ke index.php.
+12. Melakukan escape output menggunakan htmlspecialchars().
 
 ## Struktur Folder
+
+```text
 pertemuan-06/
-├── index.php
-├── cart.php
+│
 ├── actions.php
 ├── bootstrap.php
+├── cart.php
 ├── functions.php
+├── index.php
 ├── README.md
 ├── .gitignore
-├── data/
-│   └── products.php
-└── components/
-    ├── header.php
-    └── footer.php
-
-## Cara Menjalankan
-1. Simpan folder `pertemuan-06` di dalam `web1`.
-2. Jalankan XAMPP Apache, atau gunakan PHP built-in server.
-3. Jika memakai PHP built-in server:
-   `php -S localhost:8000`
-4. Buka `http://localhost:8000/index.php`.
-
-## Pengujian
-1. Buka halaman katalog: cart = 0.
-2. Tambah produk yang sama dua kali: jumlah menjadi 2 dan flash tampil.
-3. Refresh: flash tidak muncul lagi.
-4. Tambah dua produk berbeda: subtotal dan total sesuai.
-5. Hapus satu jenis produk.
-6. Kosongkan keranjang.
-7. Uji ID produk asing: harus ditolak tanpa fatal error.
-8. Akses `actions.php` dengan GET: diarahkan ke index.php.
-9. Pilih tema gelap lalu buka ulang browser: tema tetap.
-10. Ubah cookie theme ke nilai asing: aplikasi kembali ke light.
-
-## Keamanan Dasar
-- Tidak menyimpan password/token/data sensitif di cookie.
-- Action perubahan state hanya menerima POST.
-- ID produk divalidasi.
-- Output dinamis di-escape.
-- `.env`, `vendor/`, `.idea/`, dan `.vscode/` tidak di-commit.
-
-## Workflow Commit
-1. docs: inisialisasi proyek dan petunjuk praktikum
-2. feat: tambahkan bootstrap session
-3. feat: tambahkan dataset dan fungsi bantuan
-4. feat: tampilkan katalog produk
-5. feat: proses tambah produk ke session
-6. feat: tampilkan ringkasan keranjang
-7. feat: tambahkan hapus item dan kosongkan keranjang
-8. feat: simpan preferensi tema dalam cookie
-9. fix: tangani input tidak valid dan escape output
-10. docs: lengkapi README dan bukti pengujian
+│
+├── components/
+│   ├── header.php
+│   └── footer.php
+│
+└── data/
+    └── products.php
